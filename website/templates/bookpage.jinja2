@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content%}
+    <h3 align="center"> Add New Book </h3>
+    <br/><br/>
+    <div class="container-fluid">
+        <form method= "POST" enctype="multipart/form-data>
+        {{ form.hidden_tag() }}
+        <div>{{ form.Pic.label (class="form-label", id="label")}}
+            {{ form.Pic(href="url_for('static', filename='images/profile_picture.png')") }}
+        </div>
+        {{ form.Bookname.label (class="form-label", id="label")}}
+        {{ form.Bookname(class="form-control") }}
+        {{ form.Author.label (class="form-label", id="label")}}
+        {{ form.Author(class="form-control") }}
+        </br>
+        {{ form.Submit(class="btn btn-dark mb-3") }}
+    </div>
+{% endblock %}

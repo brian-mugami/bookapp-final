@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content%}
+    <center><h2>{{user.username}}'s Dashboard</h2></center>
+    <br/><br/>
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{url_for('static', filename=('images/profile_picture.png'))}}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">My Details</h5>
+            <p class="card-text"><small><strong>Userame: </strong>{{user.username}}</small></p>
+            <p class="card-text"><small><strong>Email: </strong>{{user.email}}</small></p>
+            <p class="card-text"><small><strong>First Name: </strong>{{user.firstname}}</small></p>
+            <p class="card-text"><small><strong>Surname: </strong>{{user.surname}}</small></p>
+            <p class="card-text"><small><strong>Date joined: </strong>{{user.date_added}}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/><br/>
+    <form method = 'POST'>
+        <div class="card w-50">
+          <div class="card-body">
+            <h5 class="card-title">Update Form</h5>
+                {{ form.Username.label (class="form-label", id="label")}}
+                {{ form.Username(class="form-control") }}
+                {{ form.Firstname.label (class="form-label", id="label")}}
+                {{ form.Firstname(class="form-control") }}
+                {{ form.Surname.label (class="form-label", id="label")}}
+                {{ form.Surname(class="form-control") }}
+                {{ form.Email.label (class="form-label", id="label")}}
+                {{ form.Email(class="form-control") }}
+                <br/>
+                {{form.Submit(class="btn btn-dark mb-3")}}
+          </div>
+        </div>
+    </form>
+
+{% endblock %}

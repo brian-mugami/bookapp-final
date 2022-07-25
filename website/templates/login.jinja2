@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content%}
+    <h3 align="center"> Welcome!To The Book App. </h3>
+    <br/><br/>
+    <div class="container-fluid">
+        <form method= "POST">
+        {{ form.hidden_tag() }}
+        {{ form.Username.label (class="form-label", id="label")}}
+        {{ form.Username(class="form-control") }}
+        {{ form.Password.label (class="form-label", id="label")}}
+        {{ form.Password(class="form-control") }}
+        </br>
+        {{ form.Submit(class="btn btn-dark mb-3") }}
+        </br>
+        <ul>
+            <li><a href={{url_for('auth.reset')}} id="demo">Forgot Your Password</a></li>
+            <li><a href={{url_for('auth.signup')}} id="demo2"> Create Account</a></li>
+        </ul>
+    </div>
+{% endblock %}

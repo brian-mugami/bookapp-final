@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content%}
+    <h3 align="center"> Sign Up </h3>
+    <br/><br/>
+    <div class="container-fluid">
+        <form method= "POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div>{{ form.Profilepic.label (class="form-label", id="label")}}
+            {{ form.Profilepic(href="url_for('static', filename='images/profile_picture.png')") }}
+        </div>
+        {{ form.Username.label (class="form-label", id="label")}}
+        {{ form.Username(class="form-control") }}
+        {{ form.First_name.label (class="form-label", id="label")}}
+        {{ form.First_name(class="form-control") }}
+        {{ form.Surname.label (class="form-label", id="label")}}
+        {{ form.Surname(class="form-control") }}
+        {{ form.Email.label (class="form-label", id="label")}}
+        {{ form.Email(class="form-control") }}
+        {{ form.Password.label (class="form-label", id="label")}}
+        {{ form.Password(class="form-control") }}
+        {{ form.Retype_password.label (class="form-label", id="label")}}
+        {{ form.Retype_password(class="form-control") }}
+        </br>
+        {{ form.Submit(class="btn btn-dark mb-3") }}
+    </div>
+{% endblock %}

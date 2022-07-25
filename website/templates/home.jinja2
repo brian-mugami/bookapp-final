@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content%}
+
+{% if Email %}
+    <h1> {{Email}} </h1>
+{% else %}
+    <form method= "POST">
+    {{ form.hidden_tag() }}
+    {{ form.Email.label (class="form-label", id="label")}}
+    {{ form.Email(class="form-control") }}
+    </br>
+    {{ form.Submit(class="btn btn-dark mb-3") }}
+
+{% endif %}
+{% endblock %}
