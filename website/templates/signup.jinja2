@@ -5,9 +5,6 @@
     <div class="container-fluid">
         <form method= "POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-        <div>{{ form.Profilepic.label (class="form-label", id="label")}}
-            {{ form.Profilepic(href="url_for('static', filename='images/profile_picture.png')") }}
-        </div>
         {{ form.Username.label (class="form-label", id="label")}}
         {{ form.Username(class="form-control") }}
         {{ form.First_name.label (class="form-label", id="label")}}

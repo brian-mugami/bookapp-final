@@ -2,9 +2,10 @@ import secrets
 from flask import Flask,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager,current_user,login_required
+from flask_ckeditor import CKEditor
 
-
+ckeditor = CKEditor()
 db = SQLAlchemy()
 migrate = Migrate()
 DBNAME = 'books'
@@ -19,9 +20,11 @@ def create_app():
     #myslq
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:Mugaaguva20@localhost:5432/{DBNAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    UPLOAD_FOLDER = 'website/static/images/'
+    app.config["UPLOAD_FOLDER"]=UPLOAD_FOLDER
     db.init_app(app)
     migrate.init_app(app, db)
-
+    ckeditor.init_app(app)
 
 
     from website.views import views
@@ -30,6 +33,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix="/")
 
     @app.errorhandler(404)
+    @login_required
     def page_not_found(e):
         return render_template('404.jinja2'), 404
 

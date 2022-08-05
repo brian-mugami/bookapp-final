@@ -5,7 +5,11 @@
     <div class="card mb-3" style="max-width: 540px;">
       <div class="row g-0">
         <div class="col-md-4">
+                {% if user.profpic %}
+            <img src="{{url_for('static', filename=('images/'+user.profpic))}}" class="img-fluid rounded-start" alt="...">
+                {% else %}
           <img src="{{url_for('static', filename=('images/profile_picture.png'))}}" class="img-fluid rounded-start" alt="...">
+                {% endif %}
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -20,22 +24,27 @@
       </div>
     </div>
     <br/><br/>
-    <form method = 'POST'>
+    <form method = 'POST' enctype='multipart/form-data'>
+      <div class="container-fluid">
         <div class="card w-50">
           <div class="card-body">
             <h5 class="card-title">Update Form</h5>
+                {{ form.hidden_tag() }}
                 {{ form.Username.label (class="form-label", id="label")}}
-                {{ form.Username(class="form-control") }}
+                {{ form.Username(class="form-control", value=user.username) }}
                 {{ form.Firstname.label (class="form-label", id="label")}}
-                {{ form.Firstname(class="form-control") }}
+                {{ form.Firstname(class="form-control",value=user.firstname) }}
                 {{ form.Surname.label (class="form-label", id="label")}}
-                {{ form.Surname(class="form-control") }}
+                {{ form.Surname(class="form-control",value=user.surname) }}
                 {{ form.Email.label (class="form-label", id="label")}}
-                {{ form.Email(class="form-control") }}
+                {{ form.Email(class="form-control",value=user.email) }}
+                {{ form.Profile_pic.label (class="form-label", id="label")}}
+                {{ form.Profile_pic(class="form-control, value=user.profpic") }}
                 <br/>
                 {{form.Submit(class="btn btn-dark mb-3")}}
           </div>
         </div>
+      </div>
     </form>
 
 {% endblock %}

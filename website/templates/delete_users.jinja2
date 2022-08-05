@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content%}
+    <h3> Delete Users </h3>
+     {% for user in users %}
+    <div class="container-fluid">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+            {% if user.profpic %}
+              <img src="{{url_for('static',filename=('images/'+user.profpic))}}" class="img-fluid rounded-start" alt="...">
+            {% else %}
+              <img src="{{url_for('static',filename=('images/profile_picture.png'))}}" class="img-fluid rounded-start" alt="...">
+            {% endif%}
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{user.username}}</h5>
+                <p class="card-text">{{user.email}}</p>
+                <p class="card-text"><small class="text-muted">{{user.date_added}}</small></p>
+              </div>
+            </div>
+                <a href="{{url_for('views.delete_users', id=user.id)}}">
+                  <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

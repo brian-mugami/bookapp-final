@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash,generate_password_hash
 from . import db
 from flask_login import login_user,login_required,current_user,logout_user
 
-auth = Blueprint('auth',__name__,static_folder='static',template_folder='templates')
+auth = Blueprint('auth', __name__, template_folder='templates')
 
 class SignupPage(FlaskForm):
     Profilepic = FileField("Profile Picture")
@@ -37,7 +37,6 @@ class ForgotPass(FlaskForm):
 def signup():
     form = SignupPage()
     if request.method == "POST":
-        Profile_pic = form.Profilepic.data
         First_name = form.First_name.data
         Surname = form.Surname.data
         Username = form.Username.data
@@ -59,12 +58,11 @@ def signup():
         elif len(Email) < 6:
             flash("The email given is Invalid", category="error")
         else:
-            new_user = Users(firstname=First_name,surname=Surname,username=Username,email=Email,password = generate_password_hash(Password,method="sha256"),profpic=Profile_pic)
-
+            new_user = Users(firstname=First_name,username=Username,password=generate_password_hash(Password,method="sha256"), surname=Surname,email=Email)
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
             flash("Account Created Succesfully!!Now Log in", category="Success")
+            login_user(new_user, remember=True)
 
             return redirect(url_for("auth.login"))
 
@@ -111,10 +109,11 @@ def reset():
         else:
             flash("Email Does Not Exist!Try Again", category="Error")
 
-    return render_template("forgot.jinja2", form=form)
+    return render_template("forgot.jinja2", form=form, user=current_user)
 
 @auth.route("/logout")
 @login_required
 def logout():
     logout_user()
+    flash("You have logged out", category="Success")
     return redirect(url_for("auth.login"))

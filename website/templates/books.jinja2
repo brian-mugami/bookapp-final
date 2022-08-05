@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content%}
+    <h3 align="center"> BOOKS ADDED </h3>
+    <br/><br/>
+    {% for book in books %}
+    <div class="container-fluid">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+            {% if book.book_pic %}
+              <img src="{{url_for('static',filename=('images/'+book.book_pic))}}" class="img-fluid rounded-start" alt="...">
+            {% else %}
+              <img src="{{url_for('static',filename=('images/photo.jpeg'))}}" class="img-fluid rounded-start" alt="...">
+            {% endif%}
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Book Name: {{book.name}}</h5>
+                <p class="card-text">Book About: {{book.about}}</p>
+                <p class="card-text"><small class="text-muted">Book Author: {{book.author}}</small></p>
+                <p class="card-text"><small class="text-muted">Is the book read: {{book.read}}</small></p>
+                <p class="card-text"><small class="text-muted">Date Added: {{book.date_added}}</small></p>
+              </div>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <a href="{{url_for('views.update_book', id=book.id)}}">
+                      <button type="button" class="btn btn-dark">Update</button>
+                    </a>
+                    <a href="{{url_for('views.delete_book', id=book.id)}}">
+                      <button type="button" class="btn btn-danger">Delete</button>
+                    </a>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

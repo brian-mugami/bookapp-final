@@ -22,32 +22,62 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Fratbooks</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-    {% if user.is_authenticated %}
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    {% if user.is_authenticated and user.id ==4 %}
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('views.dashboard')}}">User Dashboard</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('views.dashboard', id=user.id)}}">User Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{url_for('views.bookpage')}}">Add Book</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">See Read Books</a>
+          <a class="nav-link active" href="{{url_for('views.allbooks')}}">See Added Books</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="{{url_for('views.suggestions')}}">Add Suggestions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="">See Suggested Books</a>
+          <a class="nav-link active" href="#">See Suggested Books</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{url_for('views.users')}}">Delete Users</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="{{url_for('auth.logout')}}">Logout</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex" role="search" name="search" method="POST" action="{{url_for('views.search')}}">
+        {{form.hidden_tag()}}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+    {% elif user.is_authenticated and user.id != 4%}
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('views.dashboard', id=user.id)}}">User Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('views.bookpage')}}">Add Book</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{url_for('views.allbooks')}}">See Added Books</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{url_for('views.suggestions')}}">Add Suggestions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">See Suggested Books</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{url_for('auth.logout')}}">Logout</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search" name="search" method="POST" action="{{url_for('views.search')}}">
+        {{form.hidden_tag()}}
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-primary" type="submit">Search</button>
       </form>
@@ -72,7 +102,7 @@
         {% if category == 'Success'%}
         <div class="container-fluid">
           <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <svg class="bi flex-shrink-0 me-2" width="20" height="20" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
               <div>
                 {{ message }}
               </div>
@@ -80,7 +110,7 @@
           </div>
         {% else %}
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+              <svg class="bi flex-shrink-0 me-2" width="20" height="20" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
               <div>
                 {{message}}
               </div>
@@ -95,6 +125,7 @@
       {% block content%}
       {% endblock %}
     </div>
+    <script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
