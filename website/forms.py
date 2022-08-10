@@ -37,5 +37,5 @@ class UpdateBook(FlaskForm):
     Author = StringField("Author Of The Book", validators=[DataRequired()])
     Pic = FileField("Picture Of The Book")
     About = CKEditorField("About The Book")
-    Read = BooleanField("Is the book Read" , default=False, validators=[AnyOf([True,False])])
+    Read = BooleanField("Is the book Read" , validators=[AnyOf([True,False])])
     Submit = SubmitField("Update")

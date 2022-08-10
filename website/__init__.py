@@ -1,4 +1,5 @@
 import secrets
+import os
 from flask import Flask,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -9,16 +10,18 @@ ckeditor = CKEditor()
 db = SQLAlchemy()
 migrate = Migrate()
 DBNAME = 'books'
+DB_PASS = os.environ.get('db_pass')
 def create_app():
 
     app = Flask(__name__)
     secret = secrets.token_urlsafe(23)
     app.secret_key = secret
 
+    #basedir = os.path.abspath(os.path.dirname(__name__))
     #sqlitedb
     #app.config['SQLALCHEMY_DATABASE_URI'] ="sqlite///" + os.path.join(basedir, 'booksappdb')
     #myslq
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:Mugaaguva20@localhost:5432/{DBNAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{DB_PASS}@localhost:5432/{DBNAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     UPLOAD_FOLDER = 'website/static/images/'
     app.config["UPLOAD_FOLDER"]=UPLOAD_FOLDER

@@ -139,7 +139,6 @@ def update_book(id):
         book_to_update.name = form.Bookname.data
         book_to_update.author = form.Author.data
         book_to_update.read = form.Read.data
-
         book_to_update.about = form.About.data
         book_to_update.book_pic = form.Pic.data
 
