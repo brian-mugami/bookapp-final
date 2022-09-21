@@ -44,7 +44,7 @@ def create_app():
     def server_error(e):
         return render_template('500.jinja2'), 500
 
-    from .models import Users,Books,Suggestions
+    from .models import Users,Books
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

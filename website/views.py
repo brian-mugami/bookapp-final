@@ -1,8 +1,8 @@
 import uuid
 import os
-from .forms import Bookpage,Search,Suggestionpage,UpdateUser,UpdateBook
+from .forms import Bookpage,Search,UpdateUser,UpdateBook
 from flask import Blueprint,render_template,flash,request,redirect,url_for
-from .models import Books,Suggestions,Users
+from .models import Books,Users
 from . import db
 from flask_login import login_required,current_user
 from werkzeug.utils import secure_filename
@@ -30,38 +30,13 @@ def bookpage():
         elif len(name) < 2:
             flash("Book Name is Too Short", category="Error")
         else:
-            new_book = Books(name=name, author=author,about=about)
+            new_book = Books(name=name, author=author, about=about, user_id=current_user.id)
             db.session.add(new_book)
             db.session.commit()
 
             flash("Book added successfully!You can now read", category="Success")
             return redirect(url_for('views.allbooks'))
     return render_template("bookpage.jinja2", form=form, user=current_user)
-
-@views.route("/suggestions", methods=["GET", "POST"])
-@login_required
-def suggestions():
-    form = Suggestionpage()
-    if request.method == 'POST':
-        name = form.Name.data
-        author = form.Author.data
-        pic = form.Pic.data
-        about = form.About.data
-        book = Books.query.filter_by(name=name).first()
-        suggested = Suggestions.query.filter_by(name=name).first()
-        if book == suggested:
-            flash("Book is already suggested or read", category="Error")
-        elif len(author) < 2:
-            flash("Author Name is Too Short",category="Error")
-        elif len(name) < 2:
-            flash("Book Name is Too Short", category="Error")
-        else:
-            new_book = Suggestions(name=name, author=author, pic=pic, about=about)
-            db.session.add(new_book)
-            db.session.commit()
-            flash("Book added successfully!You can now read", category="Success")
-            return redirect(url_for('views.suggestedbooks'))
-    return render_template("suggestions.jinja2", form=form, user=current_user)
 
 @views.route("/dashboard/<int:id>", methods=["POST","GET"])
 @login_required
@@ -106,8 +81,7 @@ def search():
     if request.method == "POST":
          searched = form.Search.data
          books = Books.query.filter(Books.name.like('%'+searched+'%'))
-         suggestions = Suggestions.query.filter(Suggestions.name.like('%'+searched+'%'))
-         return render_template('search.jinja2', form=form, books=books, suggestions=suggestions, user=current_user)
+         return render_template('search.jinja2', form=form, books=books,user=current_user)
 
 @views.route("/books")
 @login_required
@@ -141,22 +115,23 @@ def update_book(id):
         book_to_update.read = form.Read.data
         book_to_update.about = form.About.data
         book_to_update.book_pic = form.Pic.data
-
-        bookpicName= secure_filename(book_to_update.book_pic.filename)
-        bookName = bookpicName+'_'+str(uuid.uuid4())
-
-        book_to_update.book_pic = bookName
-        saver = form.Pic.data
-
         try:
-            flash("Book details updated successfully", category="Success")
-            db.session.commit()
-            saver.save(os.path.join(UPLOAD_FOLDER, bookName))
-            return render_template("update_books.jinja2", user=current_user, form=form, book=book_to_update)
+            bookpicName= secure_filename(book_to_update.book_pic.filename)
+            bookName = bookpicName+'_'+str(uuid.uuid4())
+
+            book_to_update.book_pic = bookName
+            saver = form.Pic.data
+
+            try:
+                flash("Book details updated successfully", category="Success")
+                db.session.commit()
+                saver.save(os.path.join(UPLOAD_FOLDER, bookName))
+                return render_template("update_books.jinja2", user=current_user, form=form, book=book_to_update)
+            except:
+                flash("Invalid user",category="Error")
         except:
-            flash("Invalid user",category="Error")
-    else:
-        return render_template("update_books.jinja2", user=current_user, form=form,book=book_to_update)
+            flash("Please update even the picture", category="Error")
+            return render_template("update_books.jinja2", user=current_user, form=form,book=book_to_update)
     return render_template("update_books.jinja2", user=current_user, form=form, book=book_to_update)
 
 @views.route("/delete/<int:id>")

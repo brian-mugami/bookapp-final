@@ -10,14 +10,6 @@ class Bookpage(FlaskForm):
     Author = StringField("Author Of The Book", validators=[DataRequired()])
     Pic = FileField("Picture Of The Book")
     About =CKEditorField("About The Book")
-    Read = CheckboxInput(input_type= None)
-    Submit = SubmitField("Add Book")
-
-class Suggestionpage(FlaskForm):
-    Name = StringField("Name Of The Book", validators=[DataRequired()])
-    Author = StringField("Author Of The Book")
-    Pic = FileField("Picture Of The Book")
-    About = CKEditorField("About The Book")
     Submit = SubmitField("Add Book")
 
 class UpdateUser(FlaskForm):
@@ -37,5 +29,5 @@ class UpdateBook(FlaskForm):
     Author = StringField("Author Of The Book", validators=[DataRequired()])
     Pic = FileField("Picture Of The Book")
     About = CKEditorField("About The Book")
-    Read = BooleanField("Is the book Read" , validators=[AnyOf([True,False])])
+    Read = BooleanField("Is the book Read" )
     Submit = SubmitField("Update")
