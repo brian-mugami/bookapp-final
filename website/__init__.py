@@ -21,7 +21,7 @@ def create_app():
     #sqlitedb
     #app.config['SQLALCHEMY_DATABASE_URI'] ="sqlite///" + os.path.join(basedir, 'booksappdb')
     #myslq
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{DB_PASS}@localhost:5432/{DBNAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', f'postgresql://postgres:{DB_PASS}@localhost:5432/{DBNAME}')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     UPLOAD_FOLDER = 'website/static/images/'
     app.config["UPLOAD_FOLDER"]=UPLOAD_FOLDER
