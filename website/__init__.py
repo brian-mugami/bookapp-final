@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager,current_user,login_required
 from flask_ckeditor import CKEditor
-
+from dotenv import load_dotenv
 ckeditor = CKEditor()
 db = SQLAlchemy()
 migrate = Migrate()
@@ -15,6 +15,7 @@ def create_app():
 
     app = Flask(__name__)
     secret = secrets.token_urlsafe(23)
+    load_dotenv(".env", verbose=True)
     app.secret_key = secret
 
     #basedir = os.path.abspath(os.path.dirname(__name__))
@@ -29,6 +30,9 @@ def create_app():
     migrate.init_app(app, db)
     ckeditor.init_app(app)
 
+    from .models import Users, Books
+    with app.app_context():
+        db.create_all()
 
     from website.views import views
     from website.auth import auth
@@ -43,8 +47,6 @@ def create_app():
     @app.errorhandler(500)
     def server_error(e):
         return render_template('500.jinja2'), 500
-
-    from .models import Users,Books
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

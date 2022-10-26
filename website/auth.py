@@ -44,7 +44,7 @@ def signup():
         Password = form.Password.data
         Retype_pasword = form.Retype_password.data
 
-        user = Users.query.filter_by(email= Email).first()
+        user = Users.query.filter_by(username=Username).first()
         if user:
             flash("User already exists", category="error")
         elif len(First_name)< 2:
